@@ -20,7 +20,10 @@ export const AddTask = ({ refresh }: Props) => {
 
   const onSubmit = async () => {
     //TODO: wrap in try/catch and have component reflect error
+    // call the api to create a task by passing in our collected values
+    // from form handler
     await createTask({ ...getValues() });
+    //call refresh so the parent knows we added something
     if (refresh) refresh();
   };
 
@@ -31,6 +34,7 @@ export const AddTask = ({ refresh }: Props) => {
           onSubmit={handleSubmit(onSubmit)}
           className='flex w-full justify-evenly'>
           <div className='flex w-4/5 flex-grow'>
+            {/* Use an input that is registered with the form handler */}
             <RegisteredInput
               register={register('text')}
               className={inputclass + ' flex-grow'}
@@ -39,6 +43,7 @@ export const AddTask = ({ refresh }: Props) => {
               <p className={errclass}>{`${errors.text.message}`}</p>
             )}
           </div>
+          {/* use button factory to add an add button for submit ops */}
           {ButtonFactory({ type: 'add', btnType: 'submit' })}
         </form>
       </div>
