@@ -1,10 +1,11 @@
 import IconWithText from '../lib/styledIconText';
 import { btnclass, errclass, inputclass, lblClass } from '../styling/styles';
 import { SiMinutemailer } from 'react-icons/si';
-import { NewTask } from '../types/tasks';
-import { vNewTask } from '../validators/tasks';
+import { NewTask, UpdateTask } from '../types/tasks';
+import { vNewTask, vUpdateTask } from '../validators/tasks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { RegisteredInput } from './RegisteredInput';
 
 export const MyForm = () => {
   const {
@@ -12,15 +13,14 @@ export const MyForm = () => {
     handleSubmit,
     getValues,
     formState: { errors, isSubmitting },
-  } = useForm<NewTask>({ resolver: zodResolver(vNewTask) });
+  } = useForm<UpdateTask>({ resolver: zodResolver(vUpdateTask) });
 
   return (
     <div className='flex justify-center w-full'>
       <form onSubmit={() => {}} className='flex w-2/4'>
-        <input
-          id='company'
-          {...register('text')}
-          placeholder='Enter a task name'
+        <RegisteredInput
+          register={register('text')}
+          value='This is a test'
           className={inputclass}
         />
         {errors.text && <p className={errclass}>{`${errors.text.message}`}</p>}

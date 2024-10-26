@@ -34,14 +34,14 @@ export class TaskService {
 
   async deleteTask(id: string) {
     try {
-      let response = await this.adapter.delete(`/api/tasks`, id);
-      console.log(response.status);
+      await this.adapter.delete(`/api/tasks`, id);
+      // console.log(response.status);
     } catch (error) {
       console.error(error);
     }
   }
 
-  async updateTask(id: string, task: UpdateTask) {
+  async updateTask(id: string, task: Partial<UpdateTask>) {
     try {
       let res = await this.adapter.put('/api/tasks', id, task);
       const validated = vTask.safeParse(res);

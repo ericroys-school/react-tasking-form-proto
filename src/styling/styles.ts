@@ -1,3 +1,4 @@
+const lblClassDark = `text-black font-bold`;
 const inputclass = `rounded-md border border-blue p-2 mb-3 mt-2 text-sm 
 placeholder:text-black shadow-md shadow-blue focus:outline focus:outline-blue focus:outline-2`;
 const inputclassHidden = `invisible -z-50 absolute bottom-0 left-0 `;
@@ -26,4 +27,5 @@ export {
   lblClass,
   styledIconTextIco,
   styledIconTextTxt,
+  lblClassDark,
 };

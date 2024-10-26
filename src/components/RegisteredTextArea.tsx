@@ -8,11 +8,12 @@ export type Props = {
   labelClassName?: string;
   value?: string | number | readonly string[] | undefined;
 };
-export const RegisteredInput = ({
+export const RegisteredTextArea = ({
   register,
   className,
   label,
   labelClassName,
+  value,
 }: Props) => {
   return (
     <>
@@ -23,10 +24,11 @@ export const RegisteredInput = ({
           {label}
         </label>
       ) : null}
-      <input
-        {...register}
+      <textarea
         id={register.name}
         className={className ? className : inputclass}
+        defaultValue={value}
+        {...register}
       />
     </>
   );

@@ -8,13 +8,13 @@ export const vNewTask = z.object({
 });
 
 export const vUpdateTask = vNewTask.extend({
-  completed: z.boolean().optional(),
+  isCompleted: z.boolean().optional(),
+  description: z.string().optional().nullable(),
 });
 
-export const vTask = vNewTask.extend({
+export const vTask = vUpdateTask.extend({
   id: z.string(),
   createdAt: z.number(),
-  completed: z.boolean(),
 });
 
 export const vTaskResponse = z.object({

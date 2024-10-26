@@ -5,56 +5,60 @@ import { ButtonIcon } from './buttonIcon';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoSearchOutline } from 'react-icons/io5';
 import { MouseEventHandler } from 'react';
+import { CiSaveUp1 } from 'react-icons/ci';
+import { ImCancelCircle } from 'react-icons/im';
 
 export type Props = {
-  type: string;
+  type: 'add' | 'edit' | 'delete' | 'search' | 'save' | 'cancel';
   btnType?: 'submit' | 'reset' | 'button';
   onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
 };
 
 export const ButtonFactory = ({ type, btnType = 'button', onClick }: Props) => {
+  const defaultBtn = {
+    type: btnType,
+    btnClass: btnclass,
+    icoClass: defaultStyleIconText.iconClass,
+    size: defaultStyleIconText.size,
+    onClick: onClick,
+  };
   if (type === 'add') {
     return ButtonIcon({
-      type: btnType,
       ico: IoIosAddCircleOutline,
-      btnClass: btnclass,
-      icoClass: defaultStyleIconText.iconClass,
-      size: defaultStyleIconText.size,
-      onClick: onClick,
+      ...defaultBtn,
     });
   }
   if (type === 'edit') {
     return ButtonIcon({
-      type: btnType,
       ico: BsPencilSquare,
-      btnClass: btnclass,
-      icoClass: defaultStyleIconText.iconClass,
-      size: defaultStyleIconText.size,
-      onClick: onClick,
+      ...defaultBtn,
     });
   }
 
   if (type === 'delete') {
     return ButtonIcon({
-      type: btnType,
       ico: FaRegTrashAlt,
-      btnClass: btnclass,
-      icoClass: defaultStyleIconText.iconClass,
-      size: defaultStyleIconText.size,
-      onClick: onClick,
+      ...defaultBtn,
     });
   }
 
   if (type === 'search') {
     return ButtonIcon({
-      type: btnType,
       ico: IoSearchOutline,
-      btnClass: btnclass,
-      icoClass: defaultStyleIconText.iconClass,
-      size: defaultStyleIconText.size,
-      onClick: onClick,
+      ...defaultBtn,
+    });
+  }
+  if (type === 'save') {
+    return ButtonIcon({
+      ico: CiSaveUp1,
+      ...defaultBtn,
+    });
+  }
+
+  if (type === 'cancel') {
+    return ButtonIcon({
+      ico: ImCancelCircle,
+      ...defaultBtn,
     });
   }
 };
-
-// let factory = ButtonFactory({type: 'add'});

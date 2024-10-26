@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { NewTask } from '../../types/tasks';
-import { vNewTask } from '../../validators/tasks';
-import { RegisteredInput } from '../RegisteredInput';
+import { NewTask } from '../../../types/tasks';
+import { vNewTask } from '../../../validators/tasks';
+import { RegisteredInput } from '../../RegisteredInput';
 import { useForm } from 'react-hook-form';
-import { ButtonFactory } from '../buttonFactory';
-import { errclass, inputclass } from '../../styling/styles';
-import { createTask } from '../../api/tasks/createTask';
+import { ButtonFactory } from '../../buttonFactory';
+import { errclass, inputclass } from '../../../styling/styles';
+import { createTask } from '../../../api/tasks/createTask';
 
 export type Props = {
   refresh?: () => void;

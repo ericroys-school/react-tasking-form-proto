@@ -1,5 +1,5 @@
-import { serviceList } from '../../dependencies';
-import { WithDependency } from '../../hoc/withDependencies';
+import { serviceList } from '../../../dependencies';
+import { WithDependency } from '../../../hoc/withDependencies';
 import { TaskContainer } from './container';
 
 const TaskContainerWithService = WithDependency(TaskContainer, {

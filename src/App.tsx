@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import './App.css';
 import { Header } from './components/header';
 import { Footer } from './components/footer';
-import TaskContainer from './components/tasks';
+import TaskContainer from './components/tasks/taskContainer';
 
 function App() {
   return (
