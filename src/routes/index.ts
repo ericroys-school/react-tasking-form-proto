@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import { ErrorPage } from '../pages/error';
 import { AboutPage } from '../pages/about';
+import { TaskPage } from '../pages/tasks';
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +12,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: AboutPage(),
+        element: TaskPage(),
       },
       {
         path: '/about',

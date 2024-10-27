@@ -1,7 +1,8 @@
-import { deleteTask } from '../../../api/tasks/deleteTask';
 import { inputclass } from '../../../styling/styles';
 import { Task } from '../../../types/tasks';
 import { ButtonFactory } from '../../buttonFactory';
+import { useAppDispatch } from '../../../store/storeHooks';
+import { deleteTask } from '../../../reducers/tasks/taskList';
 
 export type ItemProps = {
   task: Task;
@@ -12,16 +13,13 @@ export type ItemProps = {
 
 export const TaskItem = ({
   task,
-  refresh,
   onEditSelect,
   onChangeComplete,
 }: ItemProps) => {
-  const itemDelete = async (id: string) => {
+  const dispatch = useAppDispatch();
+  const itemDelete = (id: string) => {
     if (id) {
-      //delete the task
-      await deleteTask(id);
-      //tell parent a refresh is needed
-      if (refresh) refresh();
+      dispatch(deleteTask(id));
     }
   };
 

@@ -1,82 +1,74 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { TaskService } from '../../../services/tasks/tasksvc';
 import { AddTask } from './addTask';
 import { TaskItem } from './taskItem';
-import { Task } from '../../../types/tasks';
+import { Task, TaskStatus } from '../../../types/tasks';
 import EditContainer from '../editContainer/index';
+import { useAppDispatch, useAppSelector } from '../../../store/storeHooks';
+import {
+  fetchTasks,
+  selectAll,
+  selectStatus,
+} from '../../../reducers/tasks/taskList';
+import { useSelector } from 'react-redux';
+import { ErrorPage } from '../../../pages/error';
+import { TaskList } from './taskList';
 
-export type Props = {
-  taskService: TaskService;
-};
+// export type Props = {
+//   taskService: TaskService;
+// };
+// { taskService }: Props
+export const TaskContainer = memo(() => {
+  // const [tasks, setTasks] = useState<Task[] | undefined>();
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [error, setError] = useState<Error | string | undefined>();
+  // const [showEdit, setShowEdit] = useState<boolean>(false);
+  // const [selectedId, setSelectedId] = useState<string>();
 
-export const TaskContainer = ({ taskService }: Props) => {
-  const [tasks, setTasks] = useState<Task[] | undefined>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | string | undefined>();
-  const [showEdit, setShowEdit] = useState<boolean>(false);
-  const [selectedId, setSelectedId] = useState<string>();
+  // const getTasks = () => {
+  //   setIsLoading(true);
+  //   taskService
+  //     .getTasks()
+  //     .then((tasks) => {
+  //       setTasks(tasks);
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error) => setError(error))
+  //     .finally(() => setIsLoading(false));
+  // };
 
-  const getTasks = () => {
-    setIsLoading(true);
-    taskService
-      .getTasks()
-      .then((tasks) => {
-        setTasks(tasks);
-        setIsLoading(false);
-      })
-      .catch((error) => setError(error))
-      .finally(() => setIsLoading(false));
-  };
+  // const refresh = () => {
+  //   dispatch(fetchTasks());
+  // };
 
-  useEffect(() => {
-    getTasks();
-  }, []);
+  // const onEditSelect = (id: string) => {
+  //   setSelectedId(id);
+  //   selectedId !== id ? setShowEdit(true) : setShowEdit(!showEdit);
+  // };
 
-  const refresh = () => {
-    getTasks();
-  };
+  // const onCancel = () => {
+  //   setSelectedId(undefined);
+  //   setShowEdit(false);
+  // };
 
-  const onEditSelect = (id: string) => {
-    setSelectedId(id);
-    selectedId !== id ? setShowEdit(true) : setShowEdit(!showEdit);
-  };
+  // const onSave = () => {
+  //   onCancel();
+  //   refresh();
+  // };
 
-  const onCancel = () => {
-    setSelectedId(undefined);
-    setShowEdit(false);
-  };
+  // const changeComplete = async (id: string, isCompleted: boolean) => {
+  //   // console.log('**********', id, isCompleted);
+  //   await taskService.updateTask(id, { isCompleted: isCompleted });
+  // };
 
-  const onSave = () => {
-    onCancel();
-    refresh();
-  };
-
-  const changeComplete = async (id: string, isCompleted: boolean) => {
-    // console.log('**********', id, isCompleted);
-    await taskService.updateTask(id, { isCompleted: isCompleted });
-  };
-
-  return isLoading ? (
-    <p>... loading ... </p>
-  ) : error ? (
-    <p>{JSON.stringify(error)}</p>
-  ) : !tasks ? (
-    <p>none</p>
-  ) : (
+  return (
     <>
-      <AddTask refresh={refresh} />
-      {tasks.map((t) => (
-        <TaskItem
-          key={t.id}
-          task={{ ...t }}
-          refresh={refresh}
-          onEditSelect={onEditSelect}
-          onChangeComplete={changeComplete}
-        />
-      ))}
-      {showEdit && selectedId ? (
+      <AddTask />
+      <TaskList />
+
+      {/* {showEdit && selectedId ? (
         <EditContainer id={selectedId} onCancel={onCancel} onSave={onSave} />
-      ) : null}
+      ) : null} */}
     </>
   );
-};
+});

@@ -5,12 +5,12 @@ import { RegisteredInput } from '../../RegisteredInput';
 import { useForm } from 'react-hook-form';
 import { ButtonFactory } from '../../buttonFactory';
 import { errclass, inputclass } from '../../../styling/styles';
-import { createTask } from '../../../api/tasks/createTask';
+import { useAppDispatch } from '../../../store/storeHooks';
+import { addTask } from '../../../reducers/tasks/taskList';
 
-export type Props = {
-  refresh?: () => void;
-};
-export const AddTask = ({ refresh }: Props) => {
+export const AddTask = () => {
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -18,13 +18,8 @@ export const AddTask = ({ refresh }: Props) => {
     formState: { errors },
   } = useForm<NewTask>({ resolver: zodResolver(vNewTask) });
 
-  const onSubmit = async () => {
-    //TODO: wrap in try/catch and have component reflect error
-    // call the api to create a task by passing in our collected values
-    // from form handler
-    await createTask({ ...getValues() });
-    //call refresh so the parent knows we added something
-    if (refresh) refresh();
+  const onSubmit = () => {
+    dispatch(addTask({ ...getValues() }));
   };
 
   return (
