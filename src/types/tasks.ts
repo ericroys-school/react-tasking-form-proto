@@ -5,9 +5,12 @@ import {
   vTaskResponse,
   vUpdateTask,
 } from '../validators/tasks';
-import { TaskActionType } from '../actions/tasks/tasks';
+import {
+  TaskActionType,
+  TaskListActionType as TaskListActionType,
+} from '../actions/tasks/tasks';
 export type NewTask = z.infer<typeof vNewTask>;
-export type UpdateTask = z.infer<typeof vUpdateTask>;
+export type TaskUpdate = z.infer<typeof vUpdateTask>;
 export type Task = z.infer<typeof vTask>;
 export type Tasks = z.infer<typeof vTaskResponse>;
 
@@ -17,8 +20,15 @@ type TaskListState = {
   error: string | undefined | null;
 };
 
+export type TaskPayload = {
+  id: string | undefined;
+  show: boolean;
+};
+
 type TaskState = {
-  taskId: string;
+  status: TaskStatus;
+  data: TaskPayload;
+  error: string | undefined | null;
 };
 
 export const enum TaskStatus {
@@ -29,9 +39,22 @@ export const enum TaskStatus {
 }
 
 type TaskListAction = {
-  type: TaskActionType;
+  type: TaskListActionType;
   data?: Task[];
 };
 
-type DispatchType = (args: TaskListAction) => TaskListAction;
-export type { TaskListState, TaskListAction, DispatchType };
+type TaskAction = {
+  type: TaskActionType;
+  data: string;
+};
+
+type DispatchTaskListType = (args: TaskListAction) => TaskListAction;
+type DispatchTaskType = (args: TaskAction) => TaskAction;
+export type {
+  TaskListState,
+  TaskListAction,
+  DispatchTaskListType,
+  DispatchTaskType,
+  TaskAction,
+  TaskState,
+};

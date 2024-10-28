@@ -1,5 +1,5 @@
 import { HttpAdapter } from '../../api/adapters/httpAdapter';
-import { NewTask, UpdateTask } from '../../types/tasks';
+import { NewTask, TaskUpdate } from '../../types/tasks';
 import { vTask, vTaskResponse } from '../../validators/tasks';
 
 export class TaskService {
@@ -41,7 +41,7 @@ export class TaskService {
     }
   }
 
-  async updateTask(id: string, task: Partial<UpdateTask>) {
+  async updateTask(id: string, task: Partial<TaskUpdate>) {
     try {
       let res = await this.adapter.put('/api/tasks', id, task);
       const validated = vTask.safeParse(res);

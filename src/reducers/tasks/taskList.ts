@@ -40,11 +40,16 @@ export const taskListReducer = createSlice({
         data: state.data.concat(action.payload),
       };
     },
-    updateTask: (state, action: PayloadAction<Task>) => {
+    updateTask: (
+      state,
+      action: PayloadAction<{ id: string; task: Partial<Task> }>
+    ) => {
       return {
         ...state,
         data: state.data.map((task) =>
-          task.id === action.payload.id ? { ...task, ...action.payload } : task
+          task.id === action.payload.id
+            ? { ...task, ...action.payload.task }
+            : task
         ),
       };
     },
@@ -66,6 +71,9 @@ export const taskListReducer = createSlice({
       })
       .addCase(addTask.fulfilled, (state) => {
         state.status = TaskStatus.IDLE;
+      })
+      .addCase(updateTask.fulfilled, (state) => {
+        state.status = TaskStatus.IDLE;
       });
   },
 });
@@ -73,22 +81,25 @@ export const taskListReducer = createSlice({
 export const { getTasksSuccess, getTasksFail, getTasksLoading } =
   taskListReducer.actions;
 
+export const getSvc = () => new TaskService(new HttpAdapter());
+
 export const fetchTasks = createAsyncThunk(
   'taskList/fetchTaskData',
   async () => {
     try {
-      return new TaskService(new HttpAdapter()).getTasks();
+      return getSvc().getTasks();
     } catch (err) {
       console.log(err);
       return Promise.reject({ reason: err });
     }
   }
 );
+
 export const deleteTask = createAsyncThunk(
   'taskList/deleteTask',
   async (id: string) => {
     try {
-      return new TaskService(new HttpAdapter()).deleteTask(id);
+      return getSvc().deleteTask(id);
     } catch (err) {
       console.log(err);
       return Promise.reject({ reason: err });
@@ -98,11 +109,23 @@ export const deleteTask = createAsyncThunk(
 
 export const addTask = createAsyncThunk(
   'taskList/addTask',
-  async (task: NewTask) => {
+  async (task: NewTask): Promise<Task> => {
     try {
-      return new TaskService(new HttpAdapter()).addTask(task);
+      return getSvc().addTask(task);
     } catch (err) {
       console.log(err);
+      return Promise.reject({ reason: err });
+    }
+  }
+);
+
+export const updateTask = createAsyncThunk(
+  'taskList/updateTask',
+  async ({ id, task }: { id: string; task: Partial<Task> }) => {
+    try {
+      return getSvc().updateTask(id, task);
+    } catch (err) {
+      console.error(err);
       return Promise.reject({ reason: err });
     }
   }

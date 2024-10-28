@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Task, TaskStatus } from '../../../types/tasks';
 import {
   fetchTasks,

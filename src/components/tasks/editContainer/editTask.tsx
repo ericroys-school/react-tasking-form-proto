@@ -1,24 +1,27 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { vUpdateTask } from '../../../validators/tasks';
 import { useForm } from 'react-hook-form';
-import { Task, UpdateTask } from '../../../types/tasks';
+import { Task, TaskUpdate } from '../../../types/tasks';
 import { RegisteredCheckBox } from '../../RegisteredCheckBox';
 import { RegisteredInput } from '../../RegisteredInput';
-import { ErrorPage } from '../../../pages/error';
 import { TaskService } from '../../../services/tasks/tasksvc';
 import { RegisteredTextArea } from '../../RegisteredTextArea';
 import { ButtonFactory } from '../../buttonFactory';
 import { useEffect, useState } from 'react';
 import { errclass } from '../../../styling/styles';
+import { useAppDispatch, useAppSelector } from '../../../store/storeHooks';
+import { selectCurrentTask, setTask } from '../../../reducers/tasks/task';
+import { updateTask } from '../../../reducers/tasks/taskList';
 
 export type Props = {
   taskService: TaskService;
-  id: string;
-  onSave: () => void;
-  onCancel: () => void;
 };
-export const EditTask = ({ id, onSave, onCancel, taskService }: Props) => {
-  if (!id) return <ErrorPage error='No id provided' />;
+export const EditTask = ({ taskService }: Props) => {
+  const task = useAppSelector(selectCurrentTask);
+  const dispatch = useAppDispatch();
+  if (!task.id || !task.show) return null;
+  const id: string = task.id;
+
   const [data, setData] = useState<Task | undefined>();
   const [submitError, setSubmitError] = useState<string | undefined>();
   const {
@@ -26,15 +29,15 @@ export const EditTask = ({ id, onSave, onCancel, taskService }: Props) => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<UpdateTask>({
+  } = useForm<TaskUpdate>({
     values: data,
     resolver: zodResolver(vUpdateTask),
   });
 
   const onSubmit = async () => {
     try {
-      await taskService.updateTask(id, { ...getValues() });
-      onSave();
+      dispatch(updateTask({ id: id, task: { ...getValues() } }));
+      dispatch(setTask({ id: id, show: false }));
     } catch (error) {
       console.log(typeof error);
       setSubmitError(typeof error);
@@ -82,7 +85,7 @@ export const EditTask = ({ id, onSave, onCancel, taskService }: Props) => {
             {ButtonFactory({
               type: 'cancel',
               btnType: 'button',
-              onClick: () => onCancel(),
+              onClick: () => dispatch(setTask({ id: undefined, show: false })),
             })}
             {ButtonFactory({ type: 'save', btnType: 'submit' })}
           </div>

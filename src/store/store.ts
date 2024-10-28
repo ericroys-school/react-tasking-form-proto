@@ -10,6 +10,7 @@ import {
   REHYDRATE,
   persistReducer,
 } from 'redux-persist';
+import { taskReducer } from '../reducers/tasks/task';
 
 const persistConfig = {
   key: 'root',
@@ -19,6 +20,7 @@ const persistConfig = {
 
 const rootReducers = combineReducers({
   taskList: taskListReducer.reducer,
+  task: taskReducer.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
