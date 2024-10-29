@@ -19,6 +19,7 @@ export const TaskItem = ({ task }: ItemProps) => {
           <input
             type='checkbox'
             className={inputclass + ' mr-2'}
+            checked={task.isCompleted}
             defaultChecked={task.isCompleted}
             readOnly={true}
             onChange={(event) =>
@@ -30,10 +31,9 @@ export const TaskItem = ({ task }: ItemProps) => {
               )
             }
           />
-          <span
-            className={
-              'text-white' + task.isCompleted && ' line-through'
-            }>{`${task.text}`}</span>
+          <span className={`text-white ${task.isCompleted && 'line-through'}`}>
+            {task.text}
+          </span>
         </div>
         <div className='flex justify-end w-1/4'>
           {ButtonFactory({

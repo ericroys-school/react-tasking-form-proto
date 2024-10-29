@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import StyledIcon from '../lib/styledIcon';
-import { LinkProps } from '../types/styledNavLink';
+import { LinkProps } from './types/styledNavLink';
 
 export const StyledNav = ({ links }: LinkProps) => {
   return (

@@ -24,9 +24,9 @@ export default function IconWithText({
   let iClass = iconClass ? `${default_iclass} ${iconClass}` : default_iclass;
 
   return (
-    <div onClick={onClick} className='flex align-baseline items-center'>
+    <button onClick={onClick} className='flex align-baseline items-center'>
       <StyledIcon icon={icon} className={iClass} size={size} />
       <span className={tClass}>{text}</span>
-    </div>
+    </button>
   );
 }

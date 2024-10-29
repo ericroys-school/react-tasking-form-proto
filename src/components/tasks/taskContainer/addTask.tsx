@@ -15,11 +15,13 @@ export const AddTask = () => {
     register,
     handleSubmit,
     getValues,
+    reset,
     formState: { errors },
   } = useForm<NewTask>({ resolver: zodResolver(vNewTask) });
 
   const onSubmit = () => {
     dispatch(addTask({ ...getValues() }));
+    reset();
   };
 
   return (
